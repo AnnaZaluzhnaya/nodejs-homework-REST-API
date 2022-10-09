@@ -1,4 +1,4 @@
-const { Schema, SchemaTypes, model } = require("mongoose");
+const { Schema, model } = require("mongoose");
 const Joi = require("joi");
 
 
@@ -27,9 +27,10 @@ const contactSchema = new Schema ({
         default: false,
         },
     owner: {
-        type: SchemaTypes.ObjectId,
-        ref: 'user',
-        },
+            type: Schema.Types.ObjectId,
+            ref: "user",
+            
+        }
     }, {
         versionKey: false,
         timestamps: true,

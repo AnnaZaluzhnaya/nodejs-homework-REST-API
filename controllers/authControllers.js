@@ -31,7 +31,7 @@ const login = async (req,res) => {
         throw RequestError(401, "Email not found");
     }
 
-    try { 
+    
     const passwordCompare = await bcrypt.compare(password, user.password);  
 
     if(!passwordCompare) {
@@ -43,16 +43,34 @@ const login = async (req,res) => {
     }
 
     const token = jwt.sign(payload, SECRET_KEY, {expiresIn: '1h'});
+    await User.findByIdAndUpdate(user._id, {token})
     res.json({
         token,
     })
-    }catch (error) {
-        res.status(500).json({message: error.message})
-    }
+    
 }
+
+const getCurrent = async (req, res) => {
+    const {email, subscription } = req.user;
+    res.json({
+        email,
+        subscription ,
+    })
+}
+
+const logout = async(req, res)=> {
+    const {_id} = req.user;
+    await User.findByIdAndUpdate(_id, {token: ""})
+    res.json({
+        message: "Logout success"
+    })
+}
+
 
 module.exports = {
     register,
     login,
+    getCurrent,
+    logout,
 };
 
