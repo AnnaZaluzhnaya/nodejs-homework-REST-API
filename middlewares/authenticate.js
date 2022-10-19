@@ -10,6 +10,9 @@ const authenticate = async(req, res, next)=> {
     try {
         const {authorization = ""} = req.headers;
         const [bearer = "", token = ""] = authorization.split(" ");
+        if(!token) {
+            throw RequestError(401);
+        }
         if(bearer !== "Bearer") {
             throw RequestError(401);
         }
