@@ -9,6 +9,12 @@ const router = express.Router();
 
 router.post("/register", authControllers.register)
 
+router.get("/verify/:verificationToken", authControllers.verify);
+
+router.get("/verify", authControllers.resentVerify);
+
+
+
 router.post("/login", authControllers.login)
 
 router.get('/current', authenticate, authControllers.getCurrent)
